@@ -1,1 +1,32 @@
+name: Multi-Platform Matrix Build with Artifacts
 
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+  matrix:
+    version: [14, 16, 18]  # Or os: [ubuntu-latest, macos-latest, windows-latest]
+    # Or python-version: ['3.9', '3.10', '3.11']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: matrix-b05ba13
+        run: echo "Building for version ${{ matrix.version }}"
+      
+      - name: Generate build artifact
+        run: echo "Build output for version ${{ matrix.version }}" > output.txt
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-b05ba13-v${{ matrix.version }}
+          path: output.txt
+          retention-days: 7
